@@ -1,4 +1,4 @@
-Copyright (c) 2014 gxbsst
+Copyright (c) 2014 其徽
 
 MIT License
 
