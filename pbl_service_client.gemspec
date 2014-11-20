@@ -8,15 +8,21 @@ Gem::Specification.new do |spec|
   spec.version       = PblServiceClient::VERSION
   spec.authors       = ["gxbsst"]
   spec.email         = ["gxbsst@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{PBL Service Client}
+  spec.description   = %q{PBL Service Client}
+  spec.homepage      = "http://ibridgelearn.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
+
+  spec.add_runtime_dependency "rest-client"
+  spec.add_runtime_dependency 'activemodel'
+  spec.add_runtime_dependency 'virtus'
+  spec.add_runtime_dependency 'addressable'
+  spec.add_runtime_dependency 'typhoeus'
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
