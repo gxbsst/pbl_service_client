@@ -10,6 +10,7 @@ module PblServiceClient
 
       PblServiceClient.config do |config|
         config.base_url = app.config.pbl_service_client[:base_url]
+        config.version = app.config.pbl_service_client[:version]
       end
 
     end
