@@ -33,9 +33,9 @@ describe PblServiceClient::Models::User do
     it_behaves_like 'collect user'
   end
 
-  describe '.save' do
+  describe '.create' do
     let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1 }}
-    subject(:user) { user_object.create(params)}
+    subject!(:user) { user_object.create(params)}
 
     it_behaves_like 'collect user'
   end

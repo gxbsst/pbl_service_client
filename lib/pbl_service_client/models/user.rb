@@ -1,3 +1,5 @@
+require 'pbl_service_client/models/concerns/base'
+
 module PblServiceClient
   module Models
     class User

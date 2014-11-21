@@ -1,0 +1,1 @@
+require 'pbl_service_client/config/configure'

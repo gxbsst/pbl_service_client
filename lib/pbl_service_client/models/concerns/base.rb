@@ -27,7 +27,7 @@ module PblServiceClient
       module ClassMethods
 
         def find(id)
-          response = Typhoeus.get("#{base_url}/#{id}", headers: headers)
+          response = client.get(id)
           if response.success?
             data = JSON.parse(response.body, symbolize_names: true)
             self.new(data)
@@ -42,7 +42,7 @@ module PblServiceClient
             uri.query_values = parameters
           end.query
 
-          response = Typhoeus.get("#{base_url}?#{querystring}", headers: headers)
+          response = client.get(querystring, true)
           if response.success?
             data = JSON.parse(response.body, symbolize_names: true)
             data.map{ |record| self.new(record) }
@@ -54,7 +54,7 @@ module PblServiceClient
         alias_method :all, :where
 
         def create(attributes={})
-          response = Typhoeus::Request.post(base_url, body: envelope(attributes), headers: headers)
+          response = client.post(envelope(attributes) )
           data = JSON.parse(response.body, symbolize_names: true)
           if response.success?
             object = self.new(data)
@@ -67,7 +67,7 @@ module PblServiceClient
 
         def update(id, attributes={})
           object = self.new(attributes.merge(id: id))
-          response = Typhoeus::Request.patch("#{base_url}/#{id}", body: envelope(attributes), headers: headers)
+          response = client.patch(id, envelope(attributes))
           if response.response_code == 422
             data = JSON.parse(response.body, symbolize_names: true)
             object.assign_errors(data)
@@ -76,11 +76,15 @@ module PblServiceClient
         end
 
         def destroy(id)
-          response = Typhoeus::Request.delete("#{base_url}/#{id}", headers: headers)
+          response = client.delete(id)
           response.success?
         end
 
         private
+
+        def client
+         @client ||= PblServiceClient::Client.new(model_name: model_origin_name.pluralize)
+        end
 
         def envelope(attributes)
           envelope = {}
@@ -88,19 +92,8 @@ module PblServiceClient
           envelope
         end
 
-        def base_url
-          ::PblServiceClient.configure.base_url + "/" +  model_origin_name.pluralize
-        end
-
         def model_origin_name
           self.name.demodulize.to_s.underscore.downcase
-        end
-
-        def headers
-          {
-            'content-type' => 'application/x-www-form-urlencoded',
-            'Accept' => 'application/vnd.ibridgebrige.com; version=1'
-          }
         end
 
       end
