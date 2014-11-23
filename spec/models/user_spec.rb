@@ -1,5 +1,5 @@
 
-describe PblServiceClient::Models::User do
+describe PblServiceClient::Models::Users::User do
 
   shared_examples 'collect user' do
     it { expect(user.first_name).to eq('first_name') }
