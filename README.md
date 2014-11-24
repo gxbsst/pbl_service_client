@@ -20,7 +20,28 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### User
+
+#### 创建某一用户
+
+``` ruby
+params = {
+first_name: 'first_name', 
+last_name: 'last_name', 
+age: 20, 
+gender: 1, 
+email: email,
+password: password
+}
+PBL::Client::Users::User.create(
+
+)
+```
+
+
+
+
+
 
 ## Contributing
 

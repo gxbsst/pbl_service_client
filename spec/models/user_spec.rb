@@ -1,5 +1,20 @@
 
-describe PblServiceClient::Models::Users::User do
+# describe PblServiceClient::Models::Users::User do
+
+def create_user(user_object, options = {})
+  params = {
+    email: Time.now.to_i.to_s + '@e.com',
+    password: 'secret',
+    first_name: 'first_name',
+    last_name: 'last_name',
+    age: 20,
+    gender: 1
+  }.merge(options)
+
+  user_object.create(params)
+end
+
+describe PBL::Client::Users::User do
 
   shared_examples 'collect user' do
     it { expect(user.first_name).to eq('first_name') }
@@ -35,7 +50,7 @@ describe PblServiceClient::Models::Users::User do
 
   describe '.create' do
     let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1 }}
-    subject!(:user) { user_object.create(params)}
+    subject!(:user) { create_user(user_object, params)}
 
     it_behaves_like 'collect user'
   end
@@ -56,9 +71,8 @@ describe PblServiceClient::Models::Users::User do
   end
 
   describe '.destory' do
-    let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1 }}
     before(:each) do
-      @create_user = user_object.create(params)
+      @create_user = create_user(user_object)
     end
 
     subject(:result) { user_object.destroy(@create_user.id.to_s)}
@@ -67,9 +81,8 @@ describe PblServiceClient::Models::Users::User do
   end
 
   describe '.find' do
-    let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1 }}
     before(:each) do
-      @create_user = user_object.create(params)
+      @create_user = create_user(user_object)
     end
 
     subject(:user) { user_object.find(@create_user.id.to_s)}

@@ -7,8 +7,6 @@ module PblServiceClient
 
         include Base
 
-        include ::PblServiceClient::Services::Users::ValidatePassword
-
         attribute :id, String
         attribute :first_name, String
         attribute :last_name, String
@@ -17,6 +15,10 @@ module PblServiceClient
         attribute :email, String
 
         validates :first_name, :last_name, presence: true
+
+        def validate_password(email, password)
+          ::PblServiceClient::Services::Users::ValidatePassword.call(email, password)
+        end
 
         private
 
