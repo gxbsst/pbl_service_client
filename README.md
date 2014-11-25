@@ -40,9 +40,6 @@ PBL::Client::Users::User.create(
 
 
 
-
-
-
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/pbl_service_client/fork )

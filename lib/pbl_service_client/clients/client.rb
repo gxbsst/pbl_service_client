@@ -7,8 +7,12 @@ module PblServiceClient
         @model_name = params[:model_name]
       end
 
-      def get(id, with_q = false)
-        ::Typhoeus.get(resource(id, with_q), headers: headers)
+      def get(id)
+        ::Typhoeus.get(resource(id), headers: headers)
+      end
+
+      def query(query_string)
+        ::Typhoeus.get(resource(query_string, true), headers: headers)
       end
 
       def post(body)
@@ -16,7 +20,7 @@ module PblServiceClient
       end
 
       def patch(id, body)
-        rest_client.patch(resource(id), body: body, header: headers)
+        rest_client.patch(resource(id), body: body, headers: headers)
       end
 
       def delete(id)

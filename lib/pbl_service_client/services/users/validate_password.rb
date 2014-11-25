@@ -3,6 +3,8 @@ module PblServiceClient
     module Users
       class ValidatePassword
 
+        include PblServiceClient::Helpers
+
         attr_accessor :email, :password
 
         def initialize(email, password)
@@ -16,15 +18,14 @@ module PblServiceClient
         end
 
         def call
-          response = client.post({email: email, password: password})
+          user = ::PblServiceClient::Models::NullObject.new
+
+          response = client.post({login: email, password: password})
           data = JSON.parse(response.body, symbolize_names: true)
-          if response.success?
-            object = model.new(data)
-          else
-            object = model.new(attributes)
-            object.assign_errors(data) if response.response_code == 422
-          end
-          object
+
+          user = model.new(data) if response.success?
+
+          wrap_response(user, response)
         end
 
         private
@@ -35,6 +36,14 @@ module PblServiceClient
 
         def model
           ::PblServiceClient::Models::Users::User
+        end
+
+        def wrap_response(object, response)
+          object.extend response_ext
+          object.body    = response.body
+          object.code    = response.response_code
+          object.headers = response.headers
+          object
         end
 
       end

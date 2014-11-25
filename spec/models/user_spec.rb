@@ -56,10 +56,10 @@ describe PBL::Client::Users::User do
   end
 
   describe '.update' do
-    let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1 }}
+    let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1, email: "#{Time.now}gxbsst@gmail.com" }}
     let(:update_params) { {first_name: 'update_first_name', last_name: 'update_last_name', age: 21, gender: 0 }}
     before(:each) do
-     @create_user = user_object.create(params)
+     @create_user = create_user(user_object, params)
     end
 
     subject(:update_user) { user_object.update(@create_user.id.to_s, update_params)}
@@ -85,8 +85,28 @@ describe PBL::Client::Users::User do
       @create_user = create_user(user_object)
     end
 
-    subject(:user) { user_object.find(@create_user.id.to_s)}
-    it_behaves_like 'collect user'
+    context 'user is exist' do
+      subject(:user) { user_object.find(@create_user.id.to_s)}
+
+      # it_behaves_like 'collect user'
+      it { expect(user.success?).to be_truthy }
+      it { expect(user.code).to  eq(200)}
+      it { expect(user.first_name).to eq('first_name') }
+      it { expect(user.last_name).to eq('last_name') }
+      it { expect(user.age).to eq(20) }
+      it { expect(user.gender).to eq(1) }
+    end
+
+    context 'user is exist' do
+      subject(:user) { user_object.find(@create_user.id.to_s)}
+
+      subject(:user) { user_object.find('252e35fa-7d7c-45df-99ad-b865495dee84')}
+
+      it { expect(user.code).to eq(404) }
+      it { expect(user.headers).to be_a Hash}
+      it { expect(user.body).to eq('{}') }
+      it { expect(user.success?).to be_falsey }
+    end
   end
 
   describe '.where' do
