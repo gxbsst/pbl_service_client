@@ -40,6 +40,20 @@ module PblServiceClient
             wrap_response(user, response)
           end
 
+          def find!(id)
+            user = NullObject.new
+
+            response = client.get(id)
+            if response.success?
+              data = JSON.parse(response.body, symbolize_names: true)
+              user = self.new(data)
+            end
+
+            raise ::PblServiceClient::Exceptions::NotFoundException.new if user.nil?
+
+            wrap_response(user, response)
+          end
+
 
           def where(parameters={})
             result = NullObject.new

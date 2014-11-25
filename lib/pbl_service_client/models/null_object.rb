@@ -6,6 +6,10 @@ module PblServiceClient
 
       end
 
+      def nil?
+       true
+      end
+
     end
   end
 end

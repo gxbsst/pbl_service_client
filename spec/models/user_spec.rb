@@ -80,6 +80,30 @@ describe PBL::Client::Users::User do
     it { expect(result).to be_truthy}
   end
 
+  describe '.find!' do
+    before(:each) do
+      @create_user = create_user(user_object)
+    end
+
+    context 'user is exist' do
+      subject(:user) { user_object.find!(@create_user.id.to_s)}
+
+      # it_behaves_like 'collect user'
+      it { expect(user.success?).to be_truthy }
+      it { expect(user.code).to  eq(200)}
+      it { expect(user.first_name).to eq('first_name') }
+      it { expect(user.last_name).to eq('last_name') }
+      it { expect(user.age).to eq(20) }
+      it { expect(user.gender).to eq(1) }
+    end
+
+    context 'user is exist' do
+      subject(:user) { user_object.find!('252e35fa-7d7c-45df-99ad-b865495dee84')}
+
+      it { expect{user_object.find!('252e35fa-7d7c-45df-99ad-b865495dee84')}.to raise_error(PblServiceClient::Exceptions::NotFoundException)}
+    end
+
+  end
   describe '.find' do
     before(:each) do
       @create_user = create_user(user_object)
@@ -97,7 +121,7 @@ describe PBL::Client::Users::User do
       it { expect(user.gender).to eq(1) }
     end
 
-    context 'user is exist' do
+    context 'user is not exist' do
       subject(:user) { user_object.find(@create_user.id.to_s)}
 
       subject(:user) { user_object.find('252e35fa-7d7c-45df-99ad-b865495dee84')}
