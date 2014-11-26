@@ -26,6 +26,11 @@ module PblServiceClient
       def delete(id)
         rest_client.delete(resource(id), headers: headers)
       end
+
+      def post_action(id, action, body)
+        url = "#{base_url}/#{id}/actions/#{action}"
+        rest_client.post(url, body: body, headers: headers)
+      end
       
       private
 
@@ -39,8 +44,8 @@ module PblServiceClient
 
       def headers
         {
-          'content-type' => 'application/x-www-form-urlencoded',
-          'Accept' => "application/vnd.ibridgebrige.com; version=#{version}"
+          # 'content-type' => 'application/x-www-form-urlencoded',
+          'Accept' => "application/vnd.ibridgebrige.com; version=1"
         }
       end
 

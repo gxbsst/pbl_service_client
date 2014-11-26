@@ -20,7 +20,7 @@ module PblServiceClient
         def call
           user = ::PblServiceClient::Models::NullObject.new
 
-          response = client.post({login: email, password: password})
+          response = client.post_action(email, "authenticate", {password: password})
           data = JSON.parse(response.body, symbolize_names: true)
 
           user = model.new(data) if response.success?
@@ -31,7 +31,7 @@ module PblServiceClient
         private
 
         def client
-          @client ||= PblServiceClient::Client.new(model_name: 'sessions')
+          @client ||= PblServiceClient::Client.new(model_name: 'users')
         end
 
         def model

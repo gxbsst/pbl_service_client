@@ -5,7 +5,7 @@ describe PblServiceClient::Services::Users::ValidatePassword  do
 
   before(:each) do
     @email = "#{Time.now.to_i}@gmail.com"
-    params = {email: @email, :password => 'secret', first_name: 'first_name' }
+    params = {email: @email, :password => 'secret', first_name: 'first_name', username: 'username....' }
     @create_user = user_object.create(params)
   end
 
