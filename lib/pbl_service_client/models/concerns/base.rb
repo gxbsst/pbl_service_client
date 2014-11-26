@@ -29,7 +29,8 @@ module PblServiceClient
         module ClassMethods
 
           def find(id)
-            user = NullObject.new
+            # user = NullObject.new
+            user = nil
 
             response = client.get(id)
             if response.success?
@@ -41,7 +42,8 @@ module PblServiceClient
           end
 
           def find!(id)
-            user = NullObject.new
+            # user = NullObject.new
+            user = nil
 
             response = client.get(id)
             if response.success?
@@ -56,7 +58,8 @@ module PblServiceClient
 
 
           def where(parameters={})
-            result = NullObject.new
+            # result = NullObject.new
+            result = nil
 
             parameters.reject!{ |key, value| value.blank? }
             querystring = Addressable::URI.new.tap do |uri|
@@ -75,32 +78,37 @@ module PblServiceClient
           alias_method :all, :where
 
           def create(attributes={})
+            user = nil
+
             response = client.post(envelope(attributes) )
             data = ::JSON.parse(response.body, symbolize_names: true)
 
             if response.success?
-              object = self.new(data)
+              user = self.new(data)
             else
-              object = self.new(attributes)
-              object.assign_errors(data) if response.response_code != 201
+              user = self.new(attributes)
+              user.assign_errors(data) if response.response_code != 201
             end
-            object
+            wrap_response(user, response)
           end
 
           def update(id, attributes={})
-            object = self.new(attributes.merge(id: id))
+            user = self.new(attributes.merge(id: id))
 
             response = client.patch(id, envelope(attributes))
             if response.response_code != 200
               data = ::JSON.parse(response.body, symbolize_names: true)
-              object.assign_errors(data)
+              user.assign_errors(data)
             end
-            object
+
+            wrap_response(user, response)
           end
 
           def destroy(id)
+            user = nil
+
             response = client.delete(id)
-            response.success?
+            wrap_response(user, response)
           end
 
           private
@@ -118,8 +126,6 @@ module PblServiceClient
           def model_origin_name
             self.name.demodulize.to_s.underscore.downcase
           end
-
-
 
         end
 
