@@ -5,7 +5,7 @@ require 'pbl_service_client/models/users/user'
 
 # alias namespace
 module Pbl
-  module Client
+  module Models
     module Users
       User = ::PblServiceClient::Models::Users::User
     end

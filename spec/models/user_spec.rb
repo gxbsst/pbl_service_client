@@ -14,7 +14,7 @@ def create_user(user_object, options = {})
   user_object.create(params)
 end
 
-describe Pbl::Client::Users::User do
+describe Pbl::Models::Users::User do
 
   shared_examples 'collect user' do
     it { expect(user.first_name).to eq('first_name') }

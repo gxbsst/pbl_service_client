@@ -7,7 +7,6 @@ module PblServiceClient
 
         include Base
         include ActiveModel::Validations::Callbacks
-        extend Devise::Models
 
         attribute :id, String
         attribute :username, String
@@ -19,12 +18,6 @@ module PblServiceClient
         attribute :extra_attributes, Hash
 
         validates :first_name, :last_name, presence: true
-
-        devise :cas_authenticatable, :pbl_authenticatable
-
-        def self.find_for_authentication(tainted_conditions)
-          find(tainted_conditions[:username])
-        end
 
         def validate_password(email, password)
           ::PblServiceClient::Services::Users::ValidatePassword.call(email, password)

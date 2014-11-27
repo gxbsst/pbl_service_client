@@ -33,7 +33,7 @@ gender: 1,
 email: email,
 password: password
 }
-PBL::Client::Users::User.create(
+Pbl::Models::Users::User.create(
 
 )
 ```
