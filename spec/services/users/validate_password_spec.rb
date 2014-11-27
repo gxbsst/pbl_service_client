@@ -1,7 +1,7 @@
 describe PblServiceClient::Services::Users::ValidatePassword  do
 
   let(:service) { described_class }
-  let(:user_object) { PBL::Client::Users::User }
+  let(:user_object) { Pbl::Client::Users::User }
 
   before(:each) do
     @email = "#{Time.now.to_i}@gmail.com"

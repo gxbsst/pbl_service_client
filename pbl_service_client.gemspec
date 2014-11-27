@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = PblServiceClient::VERSION
   spec.authors       = ["gxbsst"]
   spec.email         = ["gxbsst@gmail.com"]
-  spec.summary       = %q{PBL Service Client}
-  spec.description   = %q{PBL Service Client}
+  spec.summary       = %q{Pbl Service Client}
+  spec.description   = %q{Pbl Service Client}
   spec.homepage      = "http://ibridgelearn.com"
   spec.license       = "MIT"
 

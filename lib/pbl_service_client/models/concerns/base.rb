@@ -14,6 +14,9 @@ module PblServiceClient
           extend PblServiceClient::Helpers
         end
 
+        def save
+        end
+
         def persisted?
           id.present?
         end
