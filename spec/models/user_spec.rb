@@ -1,16 +1,6 @@
 
-# describe PblServiceClient::Models::Users::User do
-
 def create_user(user_object, options = {})
-  params = {
-    email: Time.now.to_i.to_s + '@e.com',
-    password: 'secret',
-    first_name: 'first_name',
-    last_name: 'last_name',
-    age: 20,
-    gender: 1
-  }.merge(options)
-
+  default_params.merge(options)
   user_object.create(params)
 end
 
@@ -24,6 +14,20 @@ describe Pbl::Models::Users::User do
   end
 
   subject(:user_object) { described_class }
+
+  let(:default_params) {
+    {
+      user: {
+        username: 'username',
+        email: 'gxbsst@gmail.com',
+        password: 'secret',
+        first_name: 'first_name',
+        last_name: 'last_name',
+        age: 20,
+        gender: 1
+      }
+    }
+  }
 
   describe '#valid' do
     it 'be valid with a first_name, last_name, age, gender' do
@@ -49,70 +53,142 @@ describe Pbl::Models::Users::User do
   end
 
   describe '.create' do
-    let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1 }}
-    subject!(:user) { create_user(user_object, params)}
+    context 'successful' do
+      let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1 }}
+      before(:each) do
+        stub_request(:post, 'http://0.0.0.0:3001/users').to_return(
+          body: user_object.new(default_params[:user]).to_json,
+          status: 201
+        )
+      end
+      subject!(:user) { create_user(user_object, params)}
 
-    it_behaves_like 'collect user'
+      it { expect(user.code).to eq(201) }
+      it_behaves_like 'collect user'
+    end
+
+    context 'failed' do
+      let(:return_body) {
+        body =  {error: {firstname: ['first name error']}}
+        JSON.generate(body)
+      }
+      let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1 }}
+      before(:each) do
+        stub_request(:post, 'http://0.0.0.0:3001/users').to_return(
+          body: return_body,
+          status: 422,
+          headers: {'Header' => 'header'}
+        )
+      end
+      subject!(:user) { create_user(user_object, params)}
+
+      it { expect(user.code).to eq(422)}
+      it { expect(user.body).to eq(return_body)}
+      it { expect(user.headers).to eq({'Header' => 'header'})}
+    end
   end
 
   describe '.update' do
-    let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1, email: "#{Time.now}gxbsst@gmail.com" }}
-    let(:update_params) { {first_name: 'update_first_name', last_name: 'update_last_name', age: 21, gender: 0 }}
-    before(:each) do
-     @create_user = create_user(user_object, params)
+    context 'successful' do
+      let(:update_params) { {first_name: 'update_first_name', last_name: 'update_last_name', age: 21, gender: 0 }}
+      before(:each) do
+        stub_request(:patch, 'http://0.0.0.0:3001/users/1').to_return(
+          body: nil,
+          status: 200
+        )
+      end
+      subject(:update_user) { user_object.update('1', update_params)}
+
+      it { expect(update_user.first_name).to eq('update_first_name') }
+      it { expect(update_user.last_name).to eq('update_last_name') }
+      it { expect(update_user.age).to eq(21) }
+      it { expect(update_user.gender).to eq(0) }
+      it { expect(update_user.code).to eq(200) }
+      it { expect(update_user.body).to  eq('')}
     end
 
-    subject(:update_user) { user_object.update(@create_user.id.to_s, update_params)}
+    context 'failed' do
+      let(:update_params) { {first_name: 'update_first_name', last_name: 'update_last_name', age: 21, gender: 0 }}
+      let(:return_body) {
+        body =  {error: {firstname: ['first name error']}}
+        JSON.generate(body)
+      }
+      before(:each) do
+        stub_request(:patch, 'http://0.0.0.0:3001/users/1').to_return(
+          body: return_body,
+          status: 422
+        )
+      end
+      subject(:update_user) { user_object.update('1', update_params)}
 
-    it { expect(update_user.first_name).to eq('update_first_name') }
-    it { expect(update_user.last_name).to eq('update_last_name') }
-    it { expect(update_user.age).to eq(21) }
-    it { expect(update_user.gender).to eq(0) }
+      it { expect(update_user.first_name).to eq('update_first_name') }
+      it { expect(update_user.last_name).to eq('update_last_name') }
+      it { expect(update_user.age).to eq(21) }
+      it { expect(update_user.gender).to eq(0) }
+      it { expect(update_user.code).to eq(422) }
+      it { expect(update_user.body).to  eq(return_body)}
+    end
   end
 
-  describe '.destory' do
+  describe '.destroy' do
     before(:each) do
-      @create_user = create_user(user_object)
+      stub_request(:delete, 'http://0.0.0.0:3001/users/1').to_return(
+        body: nil,
+        status: 200
+      )
     end
+    subject(:result) { user_object.destroy(1)}
 
-    subject(:result) { user_object.destroy(@create_user.id.to_s)}
-
-    it { expect(result).to be_truthy}
+    it { expect(result.code).to eq(200)}
+    it { expect(result.body).to eq('')}
   end
 
   describe '.find!' do
     before(:each) do
-      @create_user = create_user(user_object)
+      stub_request(:get, 'http://0.0.0.0:3001/users/1').to_return(
+        body: user_object.new(default_params[:user]).to_json,
+        status: 200
+      )
+      stub_request(:get, 'http://0.0.0.0:3001/users/2').to_return(
+        body: nil,
+        status: 404
+      )
     end
 
-    context 'user is exist' do
-      subject(:user) { user_object.find!(@create_user.id.to_s)}
+    context 'user exist' do
+      subject(:user) { user_object.find!(1)}
 
-      # it_behaves_like 'collect user'
-      it { expect(user.success?).to be_truthy }
-      it { expect(user.code).to  eq(200)}
-      it { expect(user.first_name).to eq('first_name') }
-      it { expect(user.last_name).to eq('last_name') }
-      it { expect(user.age).to eq(20) }
-      it { expect(user.gender).to eq(1) }
+      it 'find' do
+        expect(user.success?).to be_truthy
+        expect(user.code).to  eq(200)
+        expect(user.first_name).to eq('first_name')
+        expect(user.last_name).to eq('last_name')
+        expect(user.age).to eq(20)
+        expect(user.gender).to eq(1)
+      end
     end
 
-    context 'user is exist' do
-      subject(:user) { user_object.find!('252e35fa-7d7c-45df-99ad-b865495dee84')}
-
-      it { expect{user_object.find!('252e35fa-7d7c-45df-99ad-b865495dee84')}.to raise_error(PblServiceClient::Exceptions::NotFoundException)}
+    context 'user do not exist' do
+      it { expect{user_object.find!(2)}.to raise_error(Pbl::Exceptions::NotFoundException)}
     end
 
   end
   describe '.find' do
     before(:each) do
-      @create_user = create_user(user_object)
+      stub_request(:get, 'http://0.0.0.0:3001/users/1').to_return(
+        body: user_object.new(default_params[:user]).to_json,
+        status: 200
+      )
+      stub_request(:get, 'http://0.0.0.0:3001/users/2').to_return(
+        body: '{}',
+        status: 404,
+        headers: {}
+      )
     end
 
     context 'user is exist' do
-      subject(:user) { user_object.find(@create_user.id.to_s)}
+      let(:user) { user_object.find(1) }
 
-      # it_behaves_like 'collect user'
       it { expect(user.success?).to be_truthy }
       it { expect(user.code).to  eq(200)}
       it { expect(user.first_name).to eq('first_name') }
@@ -122,9 +198,7 @@ describe Pbl::Models::Users::User do
     end
 
     context 'user is not exist' do
-      subject(:user) { user_object.find(@create_user.id.to_s)}
-
-      subject(:user) { user_object.find('252e35fa-7d7c-45df-99ad-b865495dee84')}
+      subject(:user) { user_object.find('2')}
 
       it { expect(user.code).to eq(404) }
       it { expect(user.headers).to be_a Hash}
@@ -134,12 +208,17 @@ describe Pbl::Models::Users::User do
   end
 
   describe '.where' do
-    let(:params) { {first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1 }}
     before(:each) do
-      @create_user = user_object.create(params)
-    end
+      users = []
+      users << user_object.new(default_params[:user])
 
-    subject(:users) { user_object.where({id: @create_user.id.to_s})}
+      stub_request(:get, 'http://0.0.0.0:3001/users/?email=gxbsst@gmail.com').to_return(
+        # body: user_object.new(default_params[:user]).to_json,
+        body: users.to_json,
+        status: 200
+      )
+    end
+    let(:users) { user_object.where({email:'gxbsst@gmail.com'})}
 
     it { expect(users).to be_a Array }
     it { expect(users.first.first_name).to eq('first_name') }

@@ -1,4 +1,4 @@
-module PblServiceClient
+module Pbl
   module Exceptions
     class NotFoundException < StandardError
 

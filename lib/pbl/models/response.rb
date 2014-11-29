@@ -1,4 +1,4 @@
-module PblServiceClient
+module Pbl
   module Models
     module Response
       include Virtus.module

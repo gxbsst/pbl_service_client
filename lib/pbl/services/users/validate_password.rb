@@ -1,9 +1,9 @@
-module PblServiceClient
+module Pbl
   module Services
     module Users
       class ValidatePassword
 
-        include PblServiceClient::Helpers
+        include Pbl::Helpers
 
         attr_accessor :email, :password
 
@@ -18,7 +18,7 @@ module PblServiceClient
         end
 
         def call
-          user = ::PblServiceClient::Models::NullObject.new
+          user = ::Pbl::Models::NullObject.new
 
           response = client.post_action(email, "authenticate", {password: password})
           data = JSON.parse(response.body, symbolize_names: true)
@@ -31,11 +31,11 @@ module PblServiceClient
         private
 
         def client
-          @client ||= PblServiceClient::Client.new(model_name: 'users')
+          @client ||= Pbl::Clients::Client.new(model_name: 'users')
         end
 
         def model
-          ::PblServiceClient::Models::Users::User
+          ::Pbl::Models::Users::User
         end
 
         def wrap_response(object, response)

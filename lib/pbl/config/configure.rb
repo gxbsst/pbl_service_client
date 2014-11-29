@@ -1,4 +1,4 @@
-module PblServiceClient
+module Pbl
   module Config
     class Configure
       attr_accessor :base_url, :version

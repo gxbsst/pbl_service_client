@@ -1,12 +1,13 @@
-require 'pbl_service_client/models/concerns/base'
+require 'pbl/models/concerns/base'
 
-module PblServiceClient
+module Pbl
   module Models
     module Users
       class User
 
         include Base
         include ActiveModel::Validations::Callbacks
+        include ActiveModel::Serializers::JSON
 
         attribute :id, String
         attribute :username, String
@@ -20,13 +21,13 @@ module PblServiceClient
         validates :first_name, :last_name, presence: true
 
         def validate_password(email, password)
-          ::PblServiceClient::Services::Users::ValidatePassword.call(email, password)
+          ::Pbl::Services::Users::ValidatePassword.call(email, password)
         end
 
         private
 
         def client
-          @client ||= PblServiceClient::Client.new(model_name: model_origin_name.pluralize)
+          @client ||= Pbl::Client.new(model_name: model_origin_name.pluralize)
         end
 
         def model_origin_name

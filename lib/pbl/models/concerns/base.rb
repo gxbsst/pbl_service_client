@@ -1,4 +1,4 @@
-module PblServiceClient
+module Pbl
   module Models
     module Users
       module Base
@@ -11,7 +11,7 @@ module PblServiceClient
           extend  ActiveModel::Translation
           include ActiveModel::Conversion
           include ActiveModel::Validations
-          extend PblServiceClient::Helpers
+          extend Pbl::Helpers
         end
 
         def save
@@ -22,7 +22,9 @@ module PblServiceClient
         end
 
         def assign_errors(error_data)
+            return errors.add(:base, error_data[:error]) if error_data[:error].is_a? Hash
             error_data[:error].each do |attribute, attribute_errors|
+              a = 1
               attribute_errors.each do |error|
                 self.errors.add(attribute, error)
               end
@@ -54,7 +56,7 @@ module PblServiceClient
               user = self.new(data)
             end
 
-            raise ::PblServiceClient::Exceptions::NotFoundException.new if user.nil?
+            raise ::Pbl::Exceptions::NotFoundException.new if user.nil?
 
             wrap_response(user, response)
           end
@@ -117,7 +119,7 @@ module PblServiceClient
           private
 
           def client
-            @client ||= PblServiceClient::Client.new(model_name: model_origin_name.pluralize)
+            @client ||= Pbl::Clients::Client.new(model_name: model_origin_name.pluralize)
           end
 
           def envelope(attributes)

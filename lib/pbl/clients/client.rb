@@ -1,4 +1,4 @@
-module PblServiceClient
+module Pbl
   module Clients
     class Client
       attr_accessor :model_name
@@ -39,7 +39,7 @@ module PblServiceClient
       end
 
       def base_url
-        ::PblServiceClient.configure.base_url + "/" +  model_name
+        ::Pbl.configure.base_url + "/" +  model_name
       end
 
       def headers
@@ -50,7 +50,7 @@ module PblServiceClient
       end
 
       def version
-        ::PblServiceClient.configure.version || 1
+        ::Pbl.configure.version || 1
       end
 
       def resource(params, with_q = false)
