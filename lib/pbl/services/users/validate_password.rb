@@ -17,7 +17,7 @@ module Pbl
 
         def call
           response = client.post_action(email, 'authenticate', {password: password})
-          Pbl::Base::Response.build(Pbl::Models::Users::User, response, verb: :create)
+          Pbl::Base::Response.build(Pbl::Models::Users::User, response, :create)
         end
 
         private
