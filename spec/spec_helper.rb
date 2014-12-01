@@ -15,10 +15,4 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  config.before(:each) do
-    stub_request(:post, "0.0.0.0:3001/users").with(
-      body: hash_including(default_params),
-      headers:  { 'Accept' => 'application/vnd.ibridgebrige.com; version=1'}
-    ).to_return(:status => 200, :body => "", :headers => {})
-  end
 end

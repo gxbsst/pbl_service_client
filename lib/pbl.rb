@@ -6,9 +6,8 @@ require 'json'
 require 'pbl/railtie' if defined? ::Rails::Railtie
 require 'pbl/config'
 
+require 'pbl/base'
 require 'pbl/exceptions'
-require 'pbl/helpers'
-require 'pbl/clients'
 require 'pbl/models'
 require 'pbl/services'
 

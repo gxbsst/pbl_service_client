@@ -1,5 +1,5 @@
 module Pbl
-  module Clients
+  module Base
     class Client
       attr_accessor :model_name
 

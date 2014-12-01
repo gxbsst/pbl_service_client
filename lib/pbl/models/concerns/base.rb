@@ -11,7 +11,6 @@ module Pbl
           extend  ActiveModel::Translation
           include ActiveModel::Conversion
           include ActiveModel::Validations
-          extend Pbl::Helpers
         end
 
         def save
@@ -22,104 +21,51 @@ module Pbl
         end
 
         def assign_errors(error_data)
-            return errors.add(:base, error_data[:error]) if error_data[:error].is_a? Hash
-            error_data[:error].each do |attribute, attribute_errors|
-              a = 1
-              attribute_errors.each do |error|
-                self.errors.add(attribute, error)
-              end
+          return errors.add(:base, error_data[:error]) if error_data[:error].is_a? Hash
+          error_data[:error].each do |attribute, attribute_errors|
+            attribute_errors.each do |error|
+              self.errors.add(attribute, error)
             end
+          end
         end
 
         module ClassMethods
 
           def find(id)
-            # user = NullObject.new
-            user = nil
-
-            response = client.get(id)
-            if response.success?
-              data = JSON.parse(response.body, symbolize_names: true)
-              user = self.new(data)
-            end
-
-            wrap_response(user, response)
+            Pbl::Base::Response.build(self, client.get(id), verb: :find)
           end
 
           def find!(id)
-            # user = NullObject.new
-            user = nil
-
             response = client.get(id)
-            if response.success?
-              data = JSON.parse(response.body, symbolize_names: true)
-              user = self.new(data)
-            end
-
-            raise ::Pbl::Exceptions::NotFoundException.new if user.nil?
-
-            wrap_response(user, response)
+            raise ::Pbl::Exceptions::NotFoundException.new if !response.success?
+            Pbl::Base::Response.build(self, response, verb: :find)
           end
 
-
           def where(parameters={})
-            # result = NullObject.new
-            result = nil
-
-            parameters.reject!{ |key, value| value.blank? }
-            querystring = Addressable::URI.new.tap do |uri|
-              uri.query_values = parameters
-            end.query
-
-            response = client.query(querystring)
-            if response.success?
-              data = ::JSON.parse(response.body, symbolize_names: true)
-              result = data.map{ |record| self.new(record) }
-            end
-
-            wrap_response(result, response)
+            response = client.query(query_string(parameters))
+            Pbl::Base::Response.build(self, response, verb: :where)
           end
 
           alias_method :all, :where
 
           def create(attributes={})
-            user = nil
-
             response = client.post(envelope(attributes) )
-            data = ::JSON.parse(response.body, symbolize_names: true)
-
-            if response.success?
-              user = self.new(data)
-            else
-              user = self.new(attributes)
-              user.assign_errors(data) if response.response_code != 201
-            end
-            wrap_response(user, response)
+            Pbl::Base::Response.build(self, response, verb: :create)
           end
 
           def update(id, attributes={})
-            user = self.new(attributes.merge(id: id))
-
             response = client.patch(id, envelope(attributes))
-            if response.response_code != 200
-              data = ::JSON.parse(response.body, symbolize_names: true)
-              user.assign_errors(data)
-            end
-
-            wrap_response(user, response)
+            Pbl::Base::Response.build(self, response, verb: :update)
           end
 
           def destroy(id)
-            user = nil
-
-            response = client.delete(id)
-            wrap_response(user, response)
+            Pbl::Base::Response.build(self, client.delete(id), verb: :destroy)
           end
 
           private
 
           def client
-            @client ||= Pbl::Clients::Client.new(model_name: model_origin_name.pluralize)
+            @client ||= Pbl::Base::Client.new(model_name: model_origin_name.pluralize)
           end
 
           def envelope(attributes)
@@ -130,6 +76,14 @@ module Pbl
 
           def model_origin_name
             self.name.demodulize.to_s.underscore.downcase
+          end
+
+          def query_string(parameters)
+            parameters.reject!{ |key, value| value.blank? }
+
+            Addressable::URI.new.tap do |uri|
+              uri.query_values = parameters
+            end.query
           end
 
         end

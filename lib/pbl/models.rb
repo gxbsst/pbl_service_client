@@ -1,7 +1,4 @@
-require 'pbl/models/response'
-require 'pbl/models/null_object'
 require 'pbl/models/users/user'
-
 
 # alias namespace
 module Pbl

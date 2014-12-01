@@ -33,7 +33,7 @@ describe Pbl::Services::Users::ValidatePassword  do
   context 'with invalid password' do
     before(:each) do
       stub_request(:post, "http://0.0.0.0:3001/users/#{default_params[:user][:email]}/actions/authenticate").to_return(
-        body: user_object.new(default_params[:user]).to_json,
+        body: JSON.generate({'error' => {}}),
         status: 404
       )
     end

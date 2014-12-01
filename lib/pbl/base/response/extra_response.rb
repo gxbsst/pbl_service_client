@@ -1,6 +1,6 @@
 module Pbl
-  module Models
-    module Response
+  module Base
+    module ExtraResponse
       include Virtus.module
 
       attribute :code, Integer
@@ -8,13 +8,12 @@ module Pbl
       attribute :body, String
 
       def success?
-       if /^2[0-9][0-9]$/.match(self.code.to_s)
-         true
-       else
-         false
-       end
+        if /^2[0-9][0-9]$/.match(self.code.to_s)
+          true
+        else
+          false
+        end
       end
-
     end
   end
 end
