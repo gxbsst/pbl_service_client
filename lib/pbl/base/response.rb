@@ -11,7 +11,7 @@ module Pbl
 
       attr_reader :response, :listener, :resource
 
-      def initialize(listener, response, verb: :find)
+      def initialize(listener, response, verb = :find)
         @response = response
         @listener = listener
         @resource = Resource.new(listener, response, verb)
