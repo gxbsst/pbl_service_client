@@ -10,11 +10,11 @@ module Pbl
         @body = JSON.parse(response.body, symbolize_names: true) rescue nil
 
         if verb == :create || verb == :update
-          self.class.include CreatingResource
+          self.extend CreatingResource
         elsif verb == :find
-          self.class.include FindingResource
+          self.extend FindingResource
         elsif verb == :where
-          self.class.include WhereResource
+          self.extend WhereResource
         else
           self.class.include NormalResource
         end

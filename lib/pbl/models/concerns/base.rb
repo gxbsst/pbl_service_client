@@ -32,40 +32,44 @@ module Pbl
         module ClassMethods
 
           def find(id)
-            Pbl::Base::Response.build(self, client.get(id), verb: :find)
+            response_class.build(self, client.get(id), :find)
           end
 
           def find!(id)
             response = client.get(id)
             raise ::Pbl::Exceptions::NotFoundException.new if !response.success?
-            Pbl::Base::Response.build(self, response, verb: :find)
+            response_class.build(self, response, :find)
           end
 
           def where(parameters={})
             response = client.query(query_string(parameters))
-            Pbl::Base::Response.build(self, response, verb: :where)
+            response_class.build(self, response, :where)
           end
 
           alias_method :all, :where
 
           def create(attributes={})
             response = client.post(envelope(attributes) )
-            Pbl::Base::Response.build(self, response, verb: :create)
+            response_class.build(self, response, :create)
           end
 
           def update(id, attributes={})
             response = client.patch(id, envelope(attributes))
-            Pbl::Base::Response.build(self, response, verb: :update)
+            response_class.build(self, response, :update)
           end
 
           def destroy(id)
-            Pbl::Base::Response.build(self, client.delete(id), verb: :destroy)
+            response_class.build(self, client.delete(id), :destroy)
           end
 
           private
 
           def client
             @client ||= Pbl::Base::Client.new(model_name: model_origin_name.pluralize)
+          end
+
+          def response_class
+            Pbl::Base::Response
           end
 
           def envelope(attributes)
@@ -86,7 +90,7 @@ module Pbl
             end.query
           end
 
-        end
+        end # end ClassMethods
 
       end
     end
