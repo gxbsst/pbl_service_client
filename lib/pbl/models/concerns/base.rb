@@ -1,3 +1,5 @@
+# == 获取网关接口的通用类
+
 module Pbl
   module Models
     module Users
@@ -31,16 +33,31 @@ module Pbl
 
         module ClassMethods
 
+          #
+          # ==== Examples
+          #
+          #  User.find(id)
+          #
           def find(id)
             response_class.build(self, client.get(id), :find)
           end
 
+          #
+          # ==== Examples
+          #
+          #  User.find(id)
+          #
           def find!(id)
             response = client.get(id)
             raise ::Pbl::Exceptions::NotFoundException.new if !response.success?
             response_class.build(self, response, :find)
           end
 
+          #
+          # ==== Examples
+          #
+          #  User.where(username: 'username', age: 20)
+          #
           def where(parameters={})
             response = client.query(query_string(parameters))
             response_class.build(self, response, :where)
@@ -53,6 +70,12 @@ module Pbl
             response_class.build(self, response, :create)
           end
 
+          #
+          # ==== Examples
+          #
+          #  User.create(username: 'username', age: 20)
+          #  *return*
+          #
           def update(id, attributes={})
             response = client.patch(id, envelope(attributes))
             response_class.build(self, response, :update)

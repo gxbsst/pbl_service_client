@@ -86,6 +86,7 @@ describe Pbl::Models::Users::User do
       it { expect(user.body).to eq(return_body)}
       it { expect(user.headers).to eq({'Header' => 'header'})}
     end
+
   end
 
   describe '.update' do
