@@ -16,6 +16,7 @@ module Pbl
         attribute :age, Integer
         attribute :gender, Integer
         attribute :email, String
+        attribute :password_digest, String
         attribute :extra_attributes, Hash
 
         validates :first_name, :last_name, presence: true
