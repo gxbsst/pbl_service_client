@@ -6,6 +6,7 @@ module Pbl
     class Response
 
       def self.build(listener, response, verb)
+        fail Pbl::Exceptions::InternalServerErrorException, '500 error', caller if response.response_code == 500
         new(listener, response, verb).build
       end
 
