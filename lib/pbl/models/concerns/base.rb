@@ -39,6 +39,7 @@ module Pbl
           #  User.find(id)
           #
           def find(id)
+            p '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
             response_class.build(self, client.get(id), :find)
           end
 
