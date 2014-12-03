@@ -13,13 +13,10 @@ module Pbl
           extend  ActiveModel::Translation
           include ActiveModel::Conversion
           include ActiveModel::Validations
+          include DynamicAttrable
         end
 
         def save
-        end
-
-        def persisted?
-          id.present?
         end
 
         def assign_errors(error_data)
@@ -29,6 +26,10 @@ module Pbl
               self.errors.add(attribute, error)
             end
           end
+        end
+
+        def persisted?
+          id.present?
         end
 
         module ClassMethods
@@ -114,6 +115,26 @@ module Pbl
           end
 
         end # end ClassMethods
+
+        module DynamicAttrable
+          def initialize(attrs)
+            attrs.each_pair {|k, v| send("#{k}=", v)}
+            super(attrs)
+          end
+
+          def method_missing(method, *args, &block)
+            method = method.to_s.underscore
+
+            unless method =~ /.*=$/
+              super
+            else
+              self.extend(Virtus.model)
+              attribute_name = method.to_s.chomp('=')
+              attribute :"#{attribute_name}", args[0].class
+              send method, args[0]
+            end
+          end
+        end
 
       end
     end

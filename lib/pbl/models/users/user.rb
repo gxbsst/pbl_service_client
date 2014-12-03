@@ -24,6 +24,7 @@ module Pbl
           ::Pbl::Services::Users::ValidatePassword.call(email, password)
         end
 
+
         private
 
         def client
