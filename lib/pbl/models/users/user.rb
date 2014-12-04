@@ -5,6 +5,8 @@ module Pbl
     module Users
       class User
 
+        extend Devise::Models
+
         include Base
         include ActiveModel::Validations::Callbacks
         include ActiveModel::Serializers::JSON
@@ -16,9 +18,16 @@ module Pbl
         attribute :age, Integer
         attribute :gender, Integer
         attribute :email, String
+        attribute :password_digest, String
         attribute :extra_attributes, Hash
 
+        devise :cas_authenticatable, :pbl_authenticatable
+
         validates :first_name, :last_name, presence: true
+
+        def self.find_for_authentication(tainted_conditions)
+          find(tainted_conditions[:username])
+        end
 
         def validate_password(email, password)
           ::Pbl::Services::Users::ValidatePassword.call(email, password)
