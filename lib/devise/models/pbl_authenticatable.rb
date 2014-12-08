@@ -1,7 +1,7 @@
 module Devise
   module Models
     module PblAuthenticatable
-      extend ActiveSupport::Concern
+      # extend ActiveSupport::Concern
 
       module ClassMethods
         def serialize_from_session(key, salt)

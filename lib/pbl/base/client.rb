@@ -1,10 +1,11 @@
 module Pbl
   module Base
     class Client
-      attr_accessor :model_name
+      attr_accessor :model_name, :name_space
 
       def initialize(params = {})
         @model_name = params[:model_name]
+        @name_space = params.fetch(:name_space, nil)
       end
 
       def get(id)
@@ -39,7 +40,11 @@ module Pbl
       end
 
       def base_url
-        ::Pbl.configure.base_url + "/" +  model_name
+        if name_space.present?
+          ::Pbl.configure.base_url + "/#{name_space}" + "/" +  model_name
+        else
+          ::Pbl.configure.base_url + "/" + model_name
+        end
       end
 
       def headers

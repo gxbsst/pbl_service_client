@@ -1,4 +1,5 @@
 require 'pbl/models/users/user'
+require 'pbl/models/projects/project'
 
 # alias namespace
 module Pbl

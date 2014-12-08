@@ -1,3 +1,4 @@
+# encoding: utf-8
 # == 获取网关接口的通用类
 
 module Pbl
@@ -13,7 +14,7 @@ module Pbl
           extend  ActiveModel::Translation
           include ActiveModel::Conversion
           include ActiveModel::Validations
-          include DynamicAttrable
+          # include DynamicAttrable
         end
 
         def save
@@ -40,7 +41,6 @@ module Pbl
           #  User.find(id)
           #
           def find(id)
-            p '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
             response_class.build(self, client.get(id), :find)
           end
 

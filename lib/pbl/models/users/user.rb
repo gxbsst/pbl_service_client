@@ -34,15 +34,15 @@ module Pbl
         end
 
 
-        private
-
-        def client
-          @client ||= Pbl::Client.new(model_name: model_origin_name.pluralize)
-        end
-
-        def model_origin_name
-          self.name.demodulize.to_s.underscore.downcase
-        end
+        # private
+        #
+        # def client
+        #   @client ||= Pbl::Client.new(model_name: model_origin_name.pluralize)
+        # end
+        #
+        # def model_origin_name
+        #   self.name.demodulize.to_s.underscore.downcase
+        # end
 
       end
     end

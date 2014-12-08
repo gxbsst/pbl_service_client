@@ -1,6 +1,9 @@
 require 'bundler/setup'
 Bundler.setup
 
+require 'devise'
+require 'devise_cas_authenticatable'
+
 require 'pbl_service_client'
 require 'webmock/rspec'
 

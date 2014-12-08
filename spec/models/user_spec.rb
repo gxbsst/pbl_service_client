@@ -49,7 +49,7 @@ describe Pbl::Models::Users::User do
   describe 'attributes' do
     let(:user) { user_object.new(first_name: 'first_name', last_name: 'last_name', age: 20, gender: 1, something: 'something', ok: 'ok') }
 
-    it { expect(user.something).to eq('something') }
+    # it { expect(user.something).to eq('something') }
 
     it_behaves_like 'collect user'
   end
