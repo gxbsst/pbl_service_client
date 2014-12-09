@@ -5,7 +5,6 @@ end
 
 describe Pbl::Models::Projects::Project do
 
-
   shared_examples 'collect project' do
     it { expect(project.name).to eq('name') }
     it { expect(project.description).to eq('description') }
