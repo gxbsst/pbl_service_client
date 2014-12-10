@@ -1,5 +1,7 @@
 require 'pbl/models/concerns/base'
 
+Devise::Models::CASAuthenticatable = Devise::Models::CasAuthenticatable
+
 module Pbl
   module Models
     module Users
