@@ -22,9 +22,9 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'virtus'
   spec.add_runtime_dependency 'addressable'
   spec.add_runtime_dependency 'typhoeus'
+  spec.add_runtime_dependency 'devise'
+  spec.add_runtime_dependency 'devise_cas_authenticatable'
 
-  spec.add_development_dependency "devise"
-  spec.add_development_dependency "devise_cas_authenticatable"
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
 
