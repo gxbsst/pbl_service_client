@@ -6,7 +6,7 @@ module Devise
       module ClassMethods
         def serialize_from_session(key, salt)
           resource = Pbl::Models::Users::User.find(key)
-          resource if salt == resource.authenticatable_salt
+          resource if resource && salt == resource.authenticatable_salt
         end
 
         def serialize_into_session(resource)
