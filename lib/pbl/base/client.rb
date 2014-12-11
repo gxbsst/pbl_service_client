@@ -16,6 +16,10 @@ module Pbl
         ::Typhoeus.get(resource(query_string, true), headers: headers)
       end
 
+      def look_for(id, query_string)
+        ::Typhoeus.get(full_url(id, query_string), headers: headers)
+      end
+
       def post(body)
         rest_client.post(base_url, body: body, headers: headers)
       end
@@ -64,6 +68,10 @@ module Pbl
         else
           "#{base_url}/#{params}"
         end
+      end
+
+      def full_url(id, params)
+        "#{base_url}/#{id}?#{params}"
       end
 
     end

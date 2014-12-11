@@ -1,5 +1,9 @@
 require 'pbl/models/users/user'
 require 'pbl/models/projects/project'
+require 'pbl/models/curriculum/standard_item'
+require 'pbl/models/curriculum/standard'
+require 'pbl/models/curriculum/phase'
+require 'pbl/models/curriculum/subject'
 
 # alias namespace
 module Pbl

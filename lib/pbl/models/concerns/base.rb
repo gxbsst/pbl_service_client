@@ -87,6 +87,17 @@ module Pbl
             response_class.build(self, client.delete(id), :destroy)
           end
 
+          #
+          # ==== Examples
+          #
+          #  User.look_for(1, include: 'books')
+          #  *return*
+          #
+          def look_for(id, parameters={})
+            response = client.look_for(id, query_string(parameters))
+            response_class.build(self, response, :find)
+          end
+
           private
 
           def client
