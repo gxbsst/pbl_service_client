@@ -12,6 +12,7 @@ module Pbl
         attribute :id, String
         attribute :title, String
         attribute :position, Integer
+        attribute :phase_id, String
         attribute :items, Array[Pbl::Models::Curriculum::StandardItem]
 
         class << self
