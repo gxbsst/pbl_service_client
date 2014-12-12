@@ -5,17 +5,18 @@ module Pbl
   module Base
     class Response
 
-      def self.build(listener, response, verb)
+      def self.build(listener, response, verb, options = {})
         fail Pbl::Exceptions::InternalServerErrorException, '500 error', caller if response.response_code == 500
-        new(listener, response, verb).build
+        new(listener, response, verb, options).build
       end
 
-      attr_reader :response, :listener, :resource
+      attr_reader :response, :listener, :resource, :options
 
-      def initialize(listener, response, verb = :find)
+      def initialize(listener, response, verb = :find, options = {})
         @response = response
         @listener = listener
         @resource = Resource.new(listener, response, verb)
+        @options = options
       end
 
       def build

@@ -47,7 +47,7 @@ describe Pbl::Models::Curriculum::Subject do
     end
 
     context 'subject is exist' do
-      let(:subject) { subject_object.look_for(1, include: 'phases') }
+      let(:subject) { subject_object.find(1, include: 'phases') }
 
       it 'find a subject' do
         expect(subject).to be_truthy

@@ -217,17 +217,17 @@ describe Pbl::Models::Users::User do
 
       stub_request(:get, 'http://0.0.0.0:3001/users/?email=gxbsst@gmail.com').to_return(
         # body: user_object.new(default_params[:user]).to_json,
-        body: users.to_json,
+        body: {'data' => users, 'meta' => {}}.to_json,
         status: 200
       )
     end
     let(:users) { user_object.where({email:'gxbsst@gmail.com'})}
 
-    it { expect(users).to be_a Array }
-    it { expect(users.first.first_name).to eq('first_name') }
-    it { expect(users.first.last_name).to eq('last_name') }
-    it { expect(users.first.age).to eq(20) }
-    it { expect(users.first.gender).to eq(1) }
+    it { expect(users).to be_a Hash}
+    it { expect(users.fetch(:data).first.first_name).to eq('first_name') }
+    it { expect(users.fetch(:data).first.last_name).to eq('last_name') }
+    it { expect(users.fetch(:data).first.age).to eq(20) }
+    it { expect(users.fetch(:data).first.gender).to eq(1) }
   end
 
 end

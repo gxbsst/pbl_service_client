@@ -13,6 +13,7 @@ module Pbl
         attribute :name, String
         attribute :category_id, String
         attribute :position, Integer
+        attribute :techniques, Array[Pbl::Models::Skills::Technique]
 
         class << self
 

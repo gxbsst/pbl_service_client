@@ -164,4 +164,26 @@ describe Pbl::Models::Skills::SubCategory do
       it { expect(clazz_instance.success?).to be_falsey }
     end
   end
+
+  describe '.where' do
+    before(:each) do
+      clazz_instances = []
+      clazz_instances << clazz.new(default_params[:object])
+
+      stub_request(:get, 'http://0.0.0.0:3001/skill/sub_categories/').to_return(
+        body: {'data' => clazz_instances, 'meta' => {total_count: 1, total_pages: 1, per_page: 1, current_page: 1}}.to_json,
+        status: 200
+      )
+    end
+    let(:clazz_instances) { clazz.all }
+
+    it { expect(clazz_instances).to be_a Hash}
+    it { expect(clazz_instances.fetch(:data).first.name).to eq('name') }
+    it { expect(clazz_instances.fetch(:data).first.position).to eq(1) }
+    it { expect(clazz_instances.fetch(:meta)[:total_count]).to eq(1) }
+    it { expect(clazz_instances.fetch(:meta)[:total_pages]).to eq(1) }
+    it { expect(clazz_instances.fetch(:meta)[:per_page]).to eq(1) }
+    it { expect(clazz_instances.fetch(:meta)[:current_page]).to eq(1) }
+  end
+
 end

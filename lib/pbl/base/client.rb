@@ -8,17 +8,23 @@ module Pbl
         @name_space = params.fetch(:name_space, nil)
       end
 
-      def get(id)
-        ::Typhoeus.get(resource(id), headers: headers)
+      def get(id, query_string = nil)
+        if query_string
+          resource = resource_with_query(id, query_string)
+        else
+          resource = resource(id)
+        end
+
+        ::Typhoeus.get(resource, headers: headers)
       end
 
       def query(query_string)
         ::Typhoeus.get(resource(query_string, true), headers: headers)
       end
 
-      def look_for(id, query_string)
-        ::Typhoeus.get(full_url(id, query_string), headers: headers)
-      end
+      # def look_for(id, query_string)
+      #   ::Typhoeus.get(full_url(id, query_string), headers: headers)
+      # end
 
       def post(body)
         rest_client.post(base_url, body: body, headers: headers)
@@ -70,9 +76,13 @@ module Pbl
         end
       end
 
-      def full_url(id, params)
-        "#{base_url}/#{id}?#{params}"
+      def resource_with_query(params, query_string)
+        "#{base_url}/#{params}?#{query_string}"
       end
+
+      # def full_url(id, params)
+      #   "#{base_url}/#{id}?#{params}"
+      # end
 
     end
   end

@@ -161,5 +161,52 @@ describe Pbl::Models::Skills::Category do
       it { expect(clazz_instance.body).to eq('{}') }
       it { expect(clazz_instance.success?).to be_falsey }
     end
+
+    context 'with include' do
+      let(:sub_category) {
+        Pbl::Models::Skills::SubCategory.new(:name => 'name')
+      }
+      let(:default_params) {
+        {
+          object: {
+            name: 'name',
+            position: 1,
+            sub_categories: [sub_category]
+          }
+        }
+      }
+      before(:each) do
+        stub_request(:get, 'http://0.0.0.0:3001/skill/categories/2?include=sub_categories').to_return(
+          body: clazz.new(default_params[:object]).to_json,
+          status: 200
+        )
+      end
+      subject(:clazz_instance) { clazz.find('2', include: 'sub_categories')}
+
+      it { expect(clazz_instance.code).to eq(200) }
+      it { expect(clazz_instance.sub_categories[0].name).to eq('name') }
+      it { expect(clazz_instance.success?).to be_truthy }
+    end
+  end
+
+  describe '.where' do
+    before(:each) do
+      clazz_instances = []
+      clazz_instances << clazz.new(default_params[:object])
+
+      stub_request(:get, 'http://0.0.0.0:3001/skill/categories/').to_return(
+        body: {'data' => clazz_instances, 'meta' => {total_count: 1, total_pages: 1, per_page: 1, current_page: 1}}.to_json,
+        status: 200
+      )
+    end
+    let(:clazz_instances) { clazz.all }
+
+    it { expect(clazz_instances).to be_a Hash}
+    it { expect(clazz_instances.fetch(:data).first.name).to eq('name') }
+    it { expect(clazz_instances.fetch(:data).first.position).to eq(1) }
+    it { expect(clazz_instances.fetch(:meta)[:total_count]).to eq(1) }
+    it { expect(clazz_instances.fetch(:meta)[:total_pages]).to eq(1) }
+    it { expect(clazz_instances.fetch(:meta)[:per_page]).to eq(1) }
+    it { expect(clazz_instances.fetch(:meta)[:current_page]).to eq(1) }
   end
 end

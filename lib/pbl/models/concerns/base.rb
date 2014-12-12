@@ -40,17 +40,21 @@ module Pbl
           #
           #  User.find(id)
           #
-          def find(id)
-            response_class.build(self, client.get(id), :find)
+          def find(id, options = {})
+            q = options.present? ? query_string(options) : nil
+            response_class.build(self, client.get(id, q), :find)
           end
 
           #
           # ==== Examples
           #
           #  User.find(id)
+          # == with include
           #
-          def find!(id)
-            response = client.get(id)
+          # User.find(id, include: 'friends')
+          def find!(id, options = {})
+            q = options.present? ? query_string(options) : nil
+            response = client.get(id, q)
             raise ::Pbl::Exceptions::NotFoundException.new if !response.success?
             response_class.build(self, response, :find)
           end
