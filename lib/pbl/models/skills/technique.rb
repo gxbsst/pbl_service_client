@@ -13,7 +13,7 @@ module Pbl
         attribute :title, String
         attribute :position, Integer
         attribute :sub_category_id, String
-
+        attribute :techniques, Array
         class << self
 
           private

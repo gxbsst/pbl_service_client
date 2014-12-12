@@ -12,7 +12,7 @@ module Pbl
         attribute :id, String
         attribute :name, String
         attribute :position, Integer
-
+        attribute :sub_categories, Array
 
         class << self
 
