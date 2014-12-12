@@ -10,8 +10,9 @@ module Pbl
         include ActiveModel::Serializers::JSON
 
         attribute :id, String
-        attribute :title, String
+        attribute :name, String
         attribute :position, Integer
+        attribute :subject_id, String
         attribute :standards, Array[Pbl::Models::Curriculum::Standard]
 
         class << self

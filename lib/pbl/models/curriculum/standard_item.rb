@@ -12,6 +12,7 @@ module Pbl
         attribute :id, String
         attribute :content, String
         attribute :position, Integer
+        attribute :standard_id, String
 
         class << self
 
