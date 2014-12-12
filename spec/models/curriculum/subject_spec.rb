@@ -38,7 +38,7 @@ describe Pbl::Models::Curriculum::Subject do
 
   end
 
-  describe '.look_for' do
+  describe '.find with include' do
     before(:each) do
       stub_request(:get, 'http://0.0.0.0:3001/curriculum/subjects/1?include=phases').to_return(
           body: subject_object.new(default_params[:subject]).to_json,

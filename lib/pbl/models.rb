@@ -1,5 +1,7 @@
 require 'pbl/models/users/user'
 require 'pbl/models/projects/project'
+require 'pbl/models/projects/product'
+require 'pbl/models/projects/standard_decomposition'
 require 'pbl/models/curriculum/standard_item'
 require 'pbl/models/curriculum/standard'
 require 'pbl/models/curriculum/phase'
