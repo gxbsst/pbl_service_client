@@ -19,6 +19,7 @@ module Pbl
         attribute :project_id, String
         attribute :technique_id, String
         attribute :gauge_id, String
+        attribute :standard, String
 
         class << self
 
