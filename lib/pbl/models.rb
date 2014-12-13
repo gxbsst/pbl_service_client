@@ -9,6 +9,7 @@ require 'pbl/models/curriculum/subject'
 require "pbl/models/skills/technique"
 require "pbl/models/skills/sub_category"
 require "pbl/models/skills/category"
+require 'pbl/models/gauge'
 require 'pbl/models/projects/rule'
 # alias namespace
 module Pbl
