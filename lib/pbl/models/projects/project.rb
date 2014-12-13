@@ -13,7 +13,7 @@ module Pbl
         attribute :name, String
         attribute :description, String
         attribute :driven_issue, String
-        attribute :standard_analysis, Integer
+        attribute :standard_analysis, String
         attribute :duration, Integer
         attribute :public, Boolean
         attribute :limitation, String
