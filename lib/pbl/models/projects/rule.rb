@@ -3,24 +3,22 @@ require 'pbl/models/concerns/base'
 module Pbl
   module Models
     module Projects
-      class Project
+      class  Rule
 
         include Pbl::Models::Users::Base
         include ActiveModel::Validations::Callbacks
         include ActiveModel::Serializers::JSON
 
         attribute :id, String
-        attribute :name, String
-        attribute :description, String
-        attribute :driven_issue, String
-        attribute :standard_analysis, Integer
-        attribute :duration, Integer
-        attribute :public, Boolean
-        attribute :limitation, String
-        attribute :location_id, Integer
-        attribute :grade_id, Integer
-        attribute :rule_head, String
-        attribute :rule_template, String
+        attribute :weight, String
+        attribute :level_1, String
+        attribute :level_2, String
+        attribute :level_3, String
+        attribute :level_4, String
+        attribute :level_5, String
+        attribute :project_id, String
+        attribute :technique_id, String
+        attribute :gauge_id, String
 
         class << self
 

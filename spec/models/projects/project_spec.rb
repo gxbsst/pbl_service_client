@@ -10,6 +10,8 @@ describe Pbl::Models::Projects::Project do
     it { expect(project.description).to eq('description') }
     it { expect(project.driven_issue).to eq('driven_issue') }
     it { expect(project.standard_analysis).to eq('standard_analysis') }
+    it { expect(project.rule_head).to eq('rule_head') }
+    it { expect(project.rule_template).to eq('rule_template') }
   end
 
   subject(:project_object) { described_class }
@@ -19,7 +21,9 @@ describe Pbl::Models::Projects::Project do
         name: 'name',
         description: 'description',
         driven_issue: 'driven_issue',
-        standard_analysis: 'standard_analysis'
+        standard_analysis: 'standard_analysis',
+        rule_head: 'rule_head',
+        rule_template: 'rule_template'
       }
     }
   }
