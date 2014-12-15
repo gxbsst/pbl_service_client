@@ -9,10 +9,10 @@ module Pbl
         include ActiveModel::Validations::Callbacks
         include ActiveModel::Serializers::JSON
 
-        attribute :id, String
-        attribute :name, String
-        attribute :position, Integer
-        attribute :sub_categories, Array[Pbl::Models::Skills::SubCategory]
+        # attribute :id, String
+        # attribute :name, String
+        # attribute :position, Integer
+        # attribute :sub_categories, Array[Pbl::Models::Skills::SubCategory]
 
         class << self
 

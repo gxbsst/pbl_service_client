@@ -9,11 +9,11 @@ module Pbl
         include ActiveModel::Validations::Callbacks
         include ActiveModel::Serializers::JSON
 
-        attribute :id, String
-        attribute :name, String
-        attribute :position, Integer
-        attribute :subject_id, String
-        attribute :standards, Array[Pbl::Models::Curriculum::Standard]
+        # attribute :id, String
+        # attribute :name, String
+        # attribute :position, Integer
+        # attribute :subject_id, String
+        # attribute :standards, Array[Pbl::Models::Curriculum::Standard]
 
         class << self
 

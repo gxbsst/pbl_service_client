@@ -8,15 +8,15 @@ module Pbl
         include ActiveModel::Validations::Callbacks
         include ActiveModel::Serializers::JSON
 
-        attribute :id, String
-        attribute :level_1, String
-        attribute :level_2, String
-        attribute :level_3, String
-        attribute :level_4, String
-        attribute :level_5, String
-        attribute :level_6, String
-        attribute :level_7, String
-        attribute :technique_id, String
+        # attribute :id, String
+        # attribute :level_1, String
+        # attribute :level_2, String
+        # attribute :level_3, String
+        # attribute :level_4, String
+        # attribute :level_5, String
+        # attribute :level_6, String
+        # attribute :level_7, String
+        # attribute :technique_id, String
 
         class << self
 

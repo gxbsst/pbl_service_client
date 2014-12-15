@@ -13,15 +13,15 @@ module Pbl
         include ActiveModel::Validations::Callbacks
         include ActiveModel::Serializers::JSON
 
-        attribute :id, String
-        attribute :username, String
-        attribute :first_name, String
-        attribute :last_name, String
-        attribute :age, Integer
-        attribute :gender, Integer
-        attribute :email, String
-        attribute :password_digest, String
-        attribute :extra_attributes, Hash
+        # attribute :id, String
+        # attribute :username, String
+        # attribute :first_name, String
+        # attribute :last_name, String
+        # attribute :age, Integer
+        # attribute :gender, Integer
+        # attribute :email, String
+        # attribute :password_digest, String
+        # attribute :extra_attributes, Hash
 
         devise :cas_authenticatable, :pbl_authenticatable
 

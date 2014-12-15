@@ -9,12 +9,30 @@ module Pbl
 
         included do
           require "addressable/uri"
-          include Virtus.model
+          # include Virtus.model
+          include ActiveModel::Model
           extend  ActiveModel::Naming
           extend  ActiveModel::Translation
           include ActiveModel::Conversion
           include ActiveModel::Validations
           # include DynamicAttrable
+
+          def initialize(attributes = {})
+            extend(Virtus.model)
+            super(attributes)
+          end
+
+          def method_missing(method, *args)
+            method = method.to_s.underscore
+            if method =~ /.*=$/
+              attribute method.chomp('=') unless respond_to?(method)
+              send(method, args[0])
+            elsif respond_to?(method)
+              send(method)
+            else
+              nil
+            end
+          end
         end
 
         def save

@@ -9,18 +9,18 @@ module Pbl
         include ActiveModel::Validations::Callbacks
         include ActiveModel::Serializers::JSON
 
-        attribute :id, String
-        attribute :name, String
-        attribute :description, String
-        attribute :driven_issue, String
-        attribute :standard_analysis, String
-        attribute :duration, Integer
-        attribute :public, Boolean
-        attribute :limitation, String
-        attribute :location_id, Integer
-        attribute :grade_id, Integer
-        attribute :rule_head, String
-        attribute :rule_template, String
+        # attribute :id, String
+        # attribute :name, String
+        # attribute :description, String
+        # attribute :driven_issue, String
+        # attribute :standard_analysis, String
+        # attribute :duration, Integer
+        # attribute :public, Boolean
+        # attribute :limitation, String
+        # attribute :location_id, Integer
+        # attribute :grade_id, Integer
+        # attribute :rule_head, String
+        # attribute :rule_template, String
 
         class << self
 
