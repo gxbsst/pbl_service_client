@@ -12,6 +12,9 @@ require "pbl/models/skills/category"
 require 'pbl/models/gauge'
 require 'pbl/models/projects/rule'
 require 'pbl/models/projects/technique'
+require 'pbl/models/projects/standard_item'
+require 'pbl/models/projects/knowledge'
+require 'pbl/models/projects/task'
 # alias namespace
 module Pbl
   module Models
