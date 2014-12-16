@@ -15,6 +15,10 @@ require 'pbl/models/projects/technique'
 require 'pbl/models/projects/standard_item'
 require 'pbl/models/projects/knowledge'
 require 'pbl/models/projects/task'
+require 'pbl/models/projects/discipline'
+require 'pbl/models/projects/product_form'
+require 'pbl/models/assignment'
+require 'pbl/models/role'
 # alias namespace
 module Pbl
   module Models
