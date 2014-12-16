@@ -25,7 +25,7 @@ module Pbl
           def method_missing(method, *args)
             method = method.to_s.underscore
             if method =~ /.*=$/
-              attribute method.chomp('=') unless respond_to?(method)
+              attribute method.chomp('='), args[0].class unless respond_to?(method)
               send(method, args[0])
             elsif respond_to?(method)
               send(method)
