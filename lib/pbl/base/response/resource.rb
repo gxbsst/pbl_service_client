@@ -15,6 +15,8 @@ module Pbl
           self.extend FindingResource
         elsif verb == :where
           self.extend WhereResource
+        elsif verb == :destroy
+          self.extend DestroyResource
         else
           self.class.include NormalResource
         end
@@ -68,6 +70,16 @@ module Pbl
             :data => body[:data].map{ |record| listener.new(record) },
             :meta => body[:meta]
           }
+        else
+          nil
+        end
+      end
+    end
+
+    module DestroyResource
+      def build_model_resource
+        if response.success?
+          listener.new(body)
         else
           nil
         end
