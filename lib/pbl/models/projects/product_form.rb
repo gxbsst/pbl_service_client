@@ -14,7 +14,7 @@ module Pbl
           private
 
           def client
-            @client ||= Pbl::Base::Client.new(model_name: model_origin_name.pluralize, name_space: 'pbl')
+            @client ||= Pbl::Base::Client.new(model_name: model_origin_name.pluralize)
           end
 
           def model_origin_name
