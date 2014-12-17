@@ -65,7 +65,7 @@ module Pbl
     module WhereResource
       def build_model_resource
         if response.success?
-          if body[:data].blank?
+          if !body[:data].blank?
             {
               :data => body[:data].map{ |record| listener.new(record) },
               :meta => body[:meta]
