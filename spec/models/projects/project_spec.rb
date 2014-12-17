@@ -205,5 +205,17 @@ describe Pbl::Models::Projects::Project do
     it { expect(clazz_instances.fetch(:meta)[:total_pages]).to eq(1) }
     it { expect(clazz_instances.fetch(:meta)[:per_page]).to eq(1) }
     it { expect(clazz_instances.fetch(:meta)[:current_page]).to eq(1) }
+
+    context 'when a empty array' do
+      before(:each) do
+        stub_request(:get, 'http://0.0.0.0:3001/pbl/projects/').to_return(
+          body: {'data' => [], 'meta' => {total_count: 1, total_pages: 1, per_page: 1, current_page: 1}}.to_json,
+          status: 200
+        )
+      end
+      let(:clazz_instances) { project_object.all }
+      it { expect(clazz_instances.fetch(:data)).to eq([]) }
+
+    end
   end
 end
