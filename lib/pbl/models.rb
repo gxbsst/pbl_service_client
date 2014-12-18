@@ -19,6 +19,7 @@ require 'pbl/models/projects/discipline'
 require 'pbl/models/projects/product_form'
 require 'pbl/models/assignment'
 require 'pbl/models/role'
+require 'pbl/models/resource'
 # alias namespace
 module Pbl
   module Models
