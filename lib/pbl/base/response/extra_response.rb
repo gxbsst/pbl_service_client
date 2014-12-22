@@ -14,6 +14,15 @@ module Pbl
           false
         end
       end
+
+      def data
+       self.fetch(:data)
+      end
+
+      def meta
+        self.fetch(:meta)
+      end
+
     end
   end
 end

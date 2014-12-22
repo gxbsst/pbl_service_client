@@ -199,12 +199,12 @@ describe Pbl::Models::Projects::Project do
     let(:clazz_instances) { project_object.all }
 
     it { expect(clazz_instances).to be_a Hash}
-    it { expect(clazz_instances.fetch(:data).first.name).to eq('name') }
-    it { expect(clazz_instances.fetch(:data).first.description).to eq('description') }
-    it { expect(clazz_instances.fetch(:meta)[:total_count]).to eq(1) }
-    it { expect(clazz_instances.fetch(:meta)[:total_pages]).to eq(1) }
-    it { expect(clazz_instances.fetch(:meta)[:per_page]).to eq(1) }
-    it { expect(clazz_instances.fetch(:meta)[:current_page]).to eq(1) }
+    it { expect(clazz_instances[:data].first.name).to eq('name') }
+    it { expect(clazz_instances[:data].first.description).to eq('description') }
+    it { expect(clazz_instances[:meta][:total_count]).to eq(1) }
+    it { expect(clazz_instances[:meta][:total_pages]).to eq(1) }
+    it { expect(clazz_instances[:meta][:per_page]).to eq(1) }
+    it { expect(clazz_instances[:meta][:current_page]).to eq(1) }
 
     context 'when a empty array' do
       before(:each) do
@@ -215,7 +215,17 @@ describe Pbl::Models::Projects::Project do
       end
       let(:clazz_instances) { project_object.all }
       it { expect(clazz_instances.fetch(:data)).to eq([]) }
+    end
 
+    context 'with include items' do
+      before(:each) do
+        stub_request(:get, 'http://0.0.0.0:3001/pbl/projects/').to_return(
+          body: {'data' => [{standard_items: {a: 1, b: 2}}], 'meta' => {total_count: 1, total_pages: 1, per_page: 1, current_page: 1}}.to_json,
+          status: 200
+        )
+      end
+      let(:clazz_instances) { project_object.all }
+      it { expect(clazz_instances.fetch(:data)[0][:standard_items]).to eq({a: 1, b: 2}) }
     end
   end
 end
