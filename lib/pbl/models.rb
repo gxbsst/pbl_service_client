@@ -22,6 +22,8 @@ require 'pbl/models/role'
 require 'pbl/models/resource'
 require 'pbl/models/region'
 require 'pbl/models/follow'
+require 'pbl/models/groups/group'
+require 'pbl/models/groups/member'
 # alias namespace
 module Pbl
   module Models
