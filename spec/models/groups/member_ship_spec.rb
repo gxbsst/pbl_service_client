@@ -3,7 +3,7 @@ def create_object(clazz, options = {})
   clazz.create(params)
 end
 
-describe Pbl::Models::Groups::Member do
+describe Pbl::Models::Groups::MemberShip do
 
   shared_examples 'collect clazz_instance' do
     it { expect(clazz_instance.id).to eq('id') }
@@ -24,7 +24,7 @@ describe Pbl::Models::Groups::Member do
     context 'successful' do
       let(:params) { {} }
       before(:each) do
-        stub_request(:post, 'http://0.0.0.0:3001/group/members').to_return(
+        stub_request(:post, 'http://0.0.0.0:3001/group/member_ships').to_return(
           body: clazz.new(default_params[:object]).to_json,
           status: 201
         )
@@ -42,7 +42,7 @@ describe Pbl::Models::Groups::Member do
       }
       let(:params) { {} }
       before(:each) do
-        stub_request(:post, 'http://0.0.0.0:3001/group/members').to_return(
+        stub_request(:post, 'http://0.0.0.0:3001/group/member_ships').to_return(
           body: return_body,
           status: 422,
           headers: {'Header' => 'header'}
@@ -61,7 +61,7 @@ describe Pbl::Models::Groups::Member do
     context 'successful' do
       let(:update_params) { {level_1: 'level' }}
       before(:each) do
-        stub_request(:patch, 'http://0.0.0.0:3001/group/members/1').to_return(
+        stub_request(:patch, 'http://0.0.0.0:3001/group/member_ships/1').to_return(
           body: nil,
           status: 200
         )
@@ -78,7 +78,7 @@ describe Pbl::Models::Groups::Member do
         JSON.generate(body)
       }
       before(:each) do
-        stub_request(:patch, 'http://0.0.0.0:3001/group/members/1').to_return(
+        stub_request(:patch, 'http://0.0.0.0:3001/group/member_ships/1').to_return(
           body: return_body,
           status: 422
         )
@@ -91,7 +91,7 @@ describe Pbl::Models::Groups::Member do
 
   describe '.destroy' do
     before(:each) do
-      stub_request(:delete, 'http://0.0.0.0:3001/group/members/1').to_return(
+      stub_request(:delete, 'http://0.0.0.0:3001/group/member_ships/1').to_return(
         body: nil,
         status: 200
       )
@@ -104,11 +104,11 @@ describe Pbl::Models::Groups::Member do
 
   describe '.find!' do
     before(:each) do
-      stub_request(:get, 'http://0.0.0.0:3001/group/members/1').to_return(
+      stub_request(:get, 'http://0.0.0.0:3001/group/member_ships/1').to_return(
         body: clazz.new(default_params[:object]).to_json,
         status: 200
       )
-      stub_request(:get, 'http://0.0.0.0:3001/group/members/2').to_return(
+      stub_request(:get, 'http://0.0.0.0:3001/group/member_ships/2').to_return(
         body: nil,
         status: 404
       )
@@ -131,11 +131,11 @@ describe Pbl::Models::Groups::Member do
   end
   describe '.find' do
     before(:each) do
-      stub_request(:get, 'http://0.0.0.0:3001/group/members/1').to_return(
+      stub_request(:get, 'http://0.0.0.0:3001/group/member_ships/1').to_return(
         body: clazz.new(default_params[:object]).to_json,
         status: 200
       )
-      stub_request(:get, 'http://0.0.0.0:3001/group/members/2').to_return(
+      stub_request(:get, 'http://0.0.0.0:3001/group/member_ships/2').to_return(
         body: '{}',
         status: 404,
         headers: {}
@@ -165,7 +165,7 @@ describe Pbl::Models::Groups::Member do
       clazz_instances = []
       clazz_instances << clazz.new(default_params[:object])
 
-      stub_request(:get, 'http://0.0.0.0:3001/group/members/').to_return(
+      stub_request(:get, 'http://0.0.0.0:3001/group/member_ships/').to_return(
         body: {'data' => clazz_instances, 'meta' => {total_count: 1, total_pages: 1, per_page: 1, current_page: 1}}.to_json,
         status: 200
       )

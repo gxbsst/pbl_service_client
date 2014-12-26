@@ -3,7 +3,7 @@ require 'pbl/models/concerns/base'
 module Pbl
   module Models
     module Groups
-      class  Member
+      class  MemberShip
 
         include Pbl::Models::Users::Base
         include ActiveModel::Validations::Callbacks

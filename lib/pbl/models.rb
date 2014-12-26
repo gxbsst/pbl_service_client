@@ -23,7 +23,7 @@ require 'pbl/models/resource'
 require 'pbl/models/region'
 require 'pbl/models/follow'
 require 'pbl/models/groups/group'
-require 'pbl/models/groups/member'
+require 'pbl/models/groups/member_ship'
 # alias namespace
 module Pbl
   module Models
