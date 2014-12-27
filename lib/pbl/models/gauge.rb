@@ -20,6 +20,11 @@ module Pbl
 
         class << self
 
+          def recommends(path, params)
+            response = client.custom(path, params: query_string(params))
+            response_class.build(self, response, :custom)
+          end
+
           private
 
           def client

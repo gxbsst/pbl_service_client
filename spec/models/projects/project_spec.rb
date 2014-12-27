@@ -107,6 +107,19 @@ describe Pbl::Models::Projects::Project do
     end
   end
 
+  describe '.release' do
+    let(:update_params) { {name: 'update_name' }}
+    before(:each) do
+      stub_request(:patch, 'http://0.0.0.0:3001/pbl/projects/1/actions/release?a=1').to_return(
+        body: project_object.new(default_params[:project]).to_json,
+        status: 200
+      )
+    end
+    subject(:release) { project_object.release(1, a: 1)}
+    it { expect(release.code).to eq(200) }
+
+  end
+
   describe '.destroy' do
     before(:each) do
       stub_request(:delete, 'http://0.0.0.0:3001/pbl/projects/1').to_return(

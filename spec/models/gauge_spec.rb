@@ -193,4 +193,21 @@ describe Pbl::Models::Gauge do
     it { expect(clazz_instances.fetch(:meta)[:per_page]).to eq(1) }
     it { expect(clazz_instances.fetch(:meta)[:current_page]).to eq(1) }
   end
+
+  describe '.custom' do
+    before(:each) do
+      @clazz_instances = {}
+      @clazz_instances[:a] =  default_params[:object]
+      @clazz_instances[:b] =  default_params[:object]
+      @clazz_instances[:c] =  default_params[:object]
+
+      stub_request(:get, 'http://0.0.0.0:3001/gauges/recommends?limit=3').to_return(
+        body: {'data' => @clazz_instances, 'meta' => {total_count: 1, total_pages: 1, per_page: 1, current_page: 1}}.to_json,
+        status: 200
+      )
+    end
+    let!(:clazz_instance) { clazz.recommends('recommends',  {limit: 3}) }
+    it { expect(clazz_instance).to be_a Hash}
+    it { expect(clazz_instance['data'][:a]).to eq(@clazz_instances[:a])}
+  end
 end

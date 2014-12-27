@@ -42,7 +42,21 @@ module Pbl
         url = "#{base_url}/#{id}/actions/#{action}"
         rest_client.post(url, body: body, headers: headers)
       end
-      
+
+      def custom(path, options = {})
+        params = options.fetch(:params, nil)
+        method = options.fetch(:method, :get)
+        body = options.fetch(:body, nil)
+        url = "#{base_url}/#{path}"
+        url << "?#{params}" if params.present?
+
+        if body
+        ::Typhoeus.send(method.to_s, url, body: body, headers: headers)
+        else
+          ::Typhoeus.send(method.to_s, url, headers: headers)
+        end
+      end
+
       private
 
       def rest_client

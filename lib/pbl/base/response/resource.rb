@@ -17,6 +17,8 @@ module Pbl
           self.extend WhereResource
         elsif verb == :destroy
           self.extend DestroyResource
+        elsif verb == :custom
+          self.extend CustomResource
         else
           self.class.include NormalResource
         end
@@ -86,6 +88,26 @@ module Pbl
       def build_model_resource
         if response.success?
           listener.new(body)
+        else
+          nil
+        end
+      end
+    end
+
+    module CustomResource
+      def build_model_resource
+        if response.success?
+          if !body[:data].blank?
+            {
+              :data => body[:data],
+              :meta => body[:meta]
+            }
+          else
+            {
+              :data => [],
+              :meta => []
+            }
+          end
         else
           nil
         end
