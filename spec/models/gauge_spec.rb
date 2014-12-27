@@ -206,7 +206,7 @@ describe Pbl::Models::Gauge do
         status: 200
       )
     end
-    let!(:clazz_instance) { clazz.recommends('recommends',  {limit: 3}) }
+    let!(:clazz_instance) { clazz.recommends({limit: 3}) }
     it { expect(clazz_instance).to be_a Hash}
     it { expect(clazz_instance['data'][:a]).to eq(@clazz_instances[:a])}
   end
