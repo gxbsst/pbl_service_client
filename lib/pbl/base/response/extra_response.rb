@@ -23,9 +23,9 @@ module Pbl
         self.fetch(:meta)
       end
 
-      def id
-        self.fetch(:id)
-      end
+      # def id
+      #   self.fetch(:id)
+      # end
 
     end
   end
