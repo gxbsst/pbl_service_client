@@ -25,8 +25,8 @@ module Pbl
       end
 
       def build_resource
-        result =  build_model_resource#.extend ExtraResponse
-        #wrap_response(result)
+        result =  build_model_resource.extend ExtraResponse
+        wrap_response(result)
       end
 
       def wrap_response(result)
