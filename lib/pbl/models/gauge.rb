@@ -21,7 +21,7 @@ module Pbl
         class << self
 
           def recommends(params)
-            response = client.custom('recommends', params: query_string(params))
+            response = client.custom("recommends", params: query_string(params))
             response_class.build(self, response, :custom)
           end
 
