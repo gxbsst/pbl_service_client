@@ -24,6 +24,7 @@ require 'pbl/models/region'
 require 'pbl/models/follow'
 require 'pbl/models/groups/group'
 require 'pbl/models/groups/member_ship'
+require 'pbl/models/projects/discussion'
 # alias namespace
 module Pbl
   module Models
