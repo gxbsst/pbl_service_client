@@ -11,6 +11,11 @@ module Pbl
 
         class << self
 
+          def release(id, params = {})
+            response = client.custom("#{id}/actions/release", params: query_string(params), method: :patch)
+            response_class.build(self, response, :update)
+          end
+
           private
 
           def client
