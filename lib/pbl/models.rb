@@ -25,6 +25,8 @@ require 'pbl/models/follow'
 require 'pbl/models/groups/group'
 require 'pbl/models/groups/member_ship'
 require 'pbl/models/projects/discussion'
+require 'pbl/models/assignments/work'
+require 'pbl/models/assignments/score'
 # alias namespace
 module Pbl
   module Models
