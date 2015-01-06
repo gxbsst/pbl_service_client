@@ -28,6 +28,7 @@ require 'pbl/models/projects/discussion'
 require 'pbl/models/assignments/work'
 require 'pbl/models/assignments/score'
 require 'pbl/models/comment'
+require 'pbl/models/notification'
 # alias namespace
 module Pbl
   module Models
