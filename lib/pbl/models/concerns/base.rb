@@ -39,12 +39,12 @@ module Pbl
         end
 
         def assign_errors(error_data)
-          return errors.add(:base, error_data[:error]) if error_data[:error].is_a? Hash
-          error_data[:error].each do |attribute, attribute_errors|
-            attribute_errors.each do |error|
-              self.errors.add(attribute, error)
-            end
-          end
+          errors.add(:base, error_data[:error]) #if error_data[:error].is_a? Hash
+          # error_data[:error].each do |attribute, attribute_errors|
+          #   attribute_errors.each do |error|
+          #     self.errors.add(attribute, error)
+          #   end
+          # end
         end
 
         def persisted?
