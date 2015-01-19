@@ -29,6 +29,11 @@ require 'pbl/models/assignments/work'
 require 'pbl/models/assignments/score'
 require 'pbl/models/comment'
 require 'pbl/models/notification'
+require 'pbl/models/invitation'
+require 'pbl/models/school'
+require 'pbl/models/grade'
+require 'pbl/models/clazz'
+
 # alias namespace
 module Pbl
   module Models
