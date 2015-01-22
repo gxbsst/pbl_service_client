@@ -34,6 +34,7 @@ require 'pbl/models/school'
 require 'pbl/models/grade'
 require 'pbl/models/clazz'
 require 'pbl/models/student'
+require 'pbl/models/friend_ship'
 
 # alias namespace
 module Pbl
