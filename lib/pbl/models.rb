@@ -37,6 +37,8 @@ require 'pbl/models/student'
 require 'pbl/models/friend_ship'
 require 'pbl/models/todos/todo'
 require 'pbl/models/todos/todo_item'
+require 'pbl/models/feeds/message'
+require 'pbl/models/feeds/post'
 
 # alias namespace
 module Pbl
