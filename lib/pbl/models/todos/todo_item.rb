@@ -11,8 +11,6 @@ module Pbl
 
         class << self
 
-          private
-
           def complete(id, params = {})
             response = client.custom("#{id}/actions/complete", params: query_string(params), method: :patch)
             response_class.build(self, response, :update)
@@ -22,6 +20,8 @@ module Pbl
             response = client.custom("#{id}/actions/cancel_complete", params: query_string(params), method: :patch)
             response_class.build(self, response, :update)
           end
+
+          private
 
           def client
             @client ||= Pbl::Base::Client.new(model_name: model_origin_name.pluralize, name_space: 'todo')
