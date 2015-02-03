@@ -10,6 +10,11 @@ module Pbl
 
       class << self
 
+        def count(params = {})
+          response = client.custom("count", params: query_string(params), method: :get)
+          response_class.build(self, response, :update)
+        end
+
         private
 
         def client
