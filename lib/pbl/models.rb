@@ -39,6 +39,7 @@ require 'pbl/models/todos/todo'
 require 'pbl/models/todos/todo_item'
 require 'pbl/models/feeds/message'
 require 'pbl/models/feeds/post'
+require 'pbl/models/mail'
 
 # alias namespace
 module Pbl
